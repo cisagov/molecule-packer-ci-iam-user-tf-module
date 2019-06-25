@@ -17,16 +17,14 @@ details on Terraform modules and the standard module structure.
 ## Usage ##
 
 ```hcl
-module "example" {
+module "iam_user" {
   source = "github.com/cisagov/aws-parameter-store-read-only-iam-user-tf-module"
 
-  aws_region            = "us-west-1"
-  aws_availability_zone = "b"
-  subnet_id             = "subnet-0123456789abcdef0"
-
+  ssm_parameters = ["/github/oauth_token"]
+  user_name      = "test-ansible-role-cyhy-core"
   tags = {
-    Key1 = "Value1"
-    Key2 = "Value2"
+    Team        = "NCATS OIS - Development"
+    Application = "ansible-role-cyhy-core testing"
   }
 }
 ```
@@ -39,20 +37,18 @@ module "example" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-------:|:--------:|
-| aws_region | The AWS region to deploy into (e.g. us-east-1) | string | | yes |
-| aws_availability_zone | The AWS availability zone to deploy into (e.g. a, b, c, etc.) | string | | yes |
-| subnet_id | The ID of the AWS subnet to deploy into (e.g. subnet-0123456789abcdef0) | string | | yes |
-| aws_region | Tags to apply to all AWS resources created | map(string) | `{}` | no |
+| ssm_parameters | The AWS SSM parameters that the IAM user needs to be able to read | list(string) | | yes |
+| user_name | The name to associate with the AWS IAM user (e.g. test-ansible-role-cyhy-core) | string | | yes |
+| tags | Tags to apply to all AWS resources created | map(string) | `{}` | no |
 
 ## Outputs ##
 
 | Name | Description |
 |------|-------------|
-| id | The EC2 instance ID |
-| arn | The EC2 instance ARN |
-| availability_zone | The AZ where the EC2 instance is deployed |
-| private_ip | The private IP of the EC2 instance |
-| subnet_id | The ID of the subnet where the EC2 instance is deployed |
+| user_name | The IAM user's name |
+| user_arn | The IAM user's ARN |
+| access_key_id | The IAM access key ID |
+| access_key_secret | The IAM access key secret |
 
 ## Contributing ##
 
