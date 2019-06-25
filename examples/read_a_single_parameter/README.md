@@ -1,4 +1,4 @@
-# Launch the Example EC2 Instance into the Default VPC #
+# Create an IAM User with Permission to Read a Single SSM Parameter #
 
 ## Usage ##
 
@@ -12,8 +12,7 @@ Note that this example may create resources which cost money. Run
 
 | Name | Description |
 |------|-------------|
-| id | The EC2 instance ID  |
-| arn | The EC2 instance ARN |
-| availability_zone | The AZ where the EC2 instance is deployed |
-| private_ip | The private IP of the EC2 instance |
-| subnet_id | The ID of the subnet where the EC2 instance is deployed |
+| user_name | The IAM user's name |
+| user_arn | The IAM user's ARN |
+| access_key_id | The IAM access key ID |
+| access_key_secret | The IAM access key secret |
