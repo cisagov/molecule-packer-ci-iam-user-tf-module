@@ -8,12 +8,13 @@ variable "aws_region" {
   description = "The AWS region to deploy into (e.g. us-east-1)"
 }
 
-variable "aws_availability_zone" {
-  description = "The AWS availability zone to deploy into (e.g. a, b, c, etc.)"
+variable "ssm_parameters" {
+  type        = list(string)
+  description = "The AWS SSM parameters that the IAM user needs to be able to read"
 }
 
-variable "subnet_id" {
-  description = "The ID of the AWS subnet to deploy into (e.g. subnet-0123456789abcdef0)"
+variable "user_name" {
+  description = "The name to associate with the AWS IAM user (e.g. test-ansible-role-cyhy-core)"
 }
 
 # ------------------------------------------------------------------------------

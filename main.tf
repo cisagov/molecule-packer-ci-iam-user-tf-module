@@ -1,62 +1,49 @@
 # ------------------------------------------------------------------------------
-# DEPLOY THE EXAMPLE AMI FROM cisagov/skeleton-packer IN AWS
-#
-# Deploy the example AMI from cisagov/skeleton-packer in AWS.
+# CREATE AN IAM USER WITH PERMISSION TO READ THE SPECIFIED SSM
+# PARAMETER STORE PARAMETERS.
 # ------------------------------------------------------------------------------
 
-# The AWS account ID being used
-data "aws_caller_identity" "current" {}
-
-# ------------------------------------------------------------------------------
-# AUTOMATICALLY LOOK UP THE LATEST PRE-BUILT EXAMPLE AMI FROM
-# cisagov/skeleton-packer.
-#
-# NOTE: This Terraform data source must return at least one AMI result
-# or the apply will fail.
-# ------------------------------------------------------------------------------
-
-# The AMI from cisagov/skeleton-packer
-data "aws_ami" "example" {
-  filter {
-    name = "name"
-    values = [
-      # Use the bastion AMI until the cisagov/skeleton-packer repo is
-      # ready
-      "cyhy-bastion-hvm-*-x86_64-ebs",
-    ]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  owners      = [data.aws_caller_identity.current.account_id] # This is us
-  most_recent = true
+# The user being created
+resource "aws_iam_user" "user" {
+  name = var.user_name
+  tags = var.tags
 }
 
-# The example EC2 instance
-resource "aws_instance" "example" {
-  ami               = data.aws_ami.example.id
-  instance_type     = "t3.micro"
-  availability_zone = "${var.aws_region}${var.aws_availability_zone}"
-  subnet_id         = var.subnet_id
+# The IAM access key for the user
+resource "aws_iam_access_key" "key" {
+  user = aws_iam_user.user.name
+}
 
-  tags = merge(
-    var.tags,
-    {
-      "Name" = "Example"
-    },
-  )
-  volume_tags = merge(
-    var.tags,
-    {
-      "Name" = "Example"
-    },
-  )
+# The SSM Parameter Store parameters of interest
+data "aws_ssm_parameter" "parameter" {
+  count = length(var.ssm_parameters)
+
+  name = var.ssm_parameters[count.index]
+}
+
+# IAM policy documents that allow reading the SSM Parameter Store
+# parameters.  This will be applied to the IAM user we are creating.
+data "aws_iam_policy_document" "ssm_parameter_doc" {
+  count = length(var.ssm_parameters)
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ssm:GetParameters",
+    ]
+
+    resources = [
+      data.aws_ssm_parameter.parameter[count.index].arn,
+    ]
+  }
+}
+
+# The SSM policies for our IAM user that lets the user read the SSM
+# Parameter Store parameters.
+resource "aws_iam_user_policy" "ssm_policy" {
+  count = length(var.ssm_parameters)
+
+  user   = aws_iam_user.user.id
+  policy = data.aws_iam_policy_document.ssm_parameter_doc[count.index].json
 }

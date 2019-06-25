@@ -1,24 +1,20 @@
-output "id" {
-  value       = "${aws_instance.example.id}"
-  description = "The EC2 instance ID"
+output "user_name" {
+  value       = "${aws_iam_user.user.name}"
+  description = "The IAM user's name"
 }
 
-output "arn" {
-  value       = "${aws_instance.example.arn}"
-  description = "The EC2 instance ARN"
+output "user_arn" {
+  value       = "${aws_iam_user.user.arn}"
+  description = "The IAM user's ARN"
 }
 
-output "availability_zone" {
-  value       = "${aws_instance.example.availability_zone}"
-  description = "The AZ where the EC2 instance is deployed"
+output "access_key_id" {
+  value       = "${aws_iam_access_key.key.id}"
+  description = "The IAM access key ID"
 }
 
-output "private_ip" {
-  value       = "${aws_instance.example.private_ip}"
-  description = "The private IP of the EC2 instance"
-}
-
-output "subnet_id" {
-  value       = "${aws_instance.example.subnet_id}"
-  description = "The ID of the subnet where the EC2 instance is deployed"
+output "access_key_secret" {
+  value       = "${aws_iam_access_key.key.secret}"
+  description = "The IAM access key secret"
+  sensitive   = true
 }
