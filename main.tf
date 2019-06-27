@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "ssm_parameter_doc" {
       "ssm:GetParameters",
     ]
 
-    resources = formatlist("arn:aws:ssm:%s:%s:parameter/%s", data.aws_region.current.name, data.aws_caller_identity.current.account_id, var.ssm_parameters[count.index])
+    resources = formatlist("arn:aws:ssm:%s:%s:parameter%s", data.aws_region.current.name, data.aws_caller_identity.current.account_id, var.ssm_parameters[count.index])
   }
 }
 
