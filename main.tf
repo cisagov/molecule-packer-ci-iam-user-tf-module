@@ -98,5 +98,5 @@ resource "aws_iam_user_policy" "ec2_packer_policy" {
   count = var.add_packer_permissions ? 1 : 0
 
   user   = aws_iam_user.user.id
-  policy = data.aws_iam_policy_document.ec2_packer_doc.json
+  policy = data.aws_iam_policy_document.ec2_packer_doc[count.index].json
 }
