@@ -39,6 +39,7 @@ module "iam_user" {
 |------|-------------|:----:|:-------:|:--------:|
 | ssm_parameters | The AWS SSM parameters that the IAM user needs to be able to read | list(string) | | yes |
 | user_name | The name to associate with the AWS IAM user (e.g. test-ansible-role-cyhy-core) | string | | yes |
+| add_packer_permissions | Whether or not to give the IAM user the permissions needed by packer to create an AMI | bool | `false` | no |
 | tags | Tags to apply to all AWS resources created | map(string) | `{}` | no |
 
 ## Outputs ##
