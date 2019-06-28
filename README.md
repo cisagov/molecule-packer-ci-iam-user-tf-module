@@ -1,15 +1,9 @@
-# aws-parameter-store-read-only-iam-user-tf-module #
+# molecule-packer-travisci-iam-user-tf-module ⚛️📦🏗 #
 
-[![Build Status](https://travis-ci.com/cisagov/aws-parameter-store-read-only-iam-user-tf-module.svg?branch=develop)](https://travis-ci.com/cisagov/aws-parameter-store-read-only-iam-user-tf-module)
+[![Build Status](https://travis-ci.com/cisagov/molecule-packer-travisci-iam-user-tf-module.svg?branch=develop)](https://travis-ci.com/cisagov/molecule-packer-travisci-iam-user-tf-module)
 
-This is a generic skeleton project that can be used to quickly get a
-new [cisagov](https://github.com/cisagov) [Terraform
-module](https://www.terraform.io/docs/modules/index.html) GitHub
-repository started.  This skeleton project contains [licensing
-information](LICENSE), as well as [pre-commit
-hooks](https://pre-commit.com) and a [Travis
-CI](https://travis-ci.com) configuration appropriate for the major
-languages that we use.
+A Terraform module that creates an AWS IAM user that can build AMIs via
+packer and/or access SSM parameters.
 
 See [here](https://www.terraform.io/docs/modules/index.html) for more
 details on Terraform modules and the standard module structure.
@@ -18,7 +12,7 @@ details on Terraform modules and the standard module structure.
 
 ```hcl
 module "iam_user" {
-  source = "github.com/cisagov/aws-parameter-store-read-only-iam-user-tf-module"
+  source = "github.com/cisagov/molecule-packer-travisci-iam-user-tf-module"
 
   ssm_parameters = ["/github/oauth_token"]
   user_name      = "test-ansible-role-cyhy-core"
@@ -31,7 +25,7 @@ module "iam_user" {
 
 ## Examples ##
 
-* [Deploying into the default VPC](https://github.com/cisagov/aws-parameter-store-read-only-iam-user-tf-module/tree/develop/examples/default_vpc)
+* See the [example README](examples/README.md).
 
 ## Inputs ##
 
