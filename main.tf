@@ -6,8 +6,6 @@
 # The AWS account ID being used
 data "aws_caller_identity" "current" {}
 
-data "aws_region" "current" {}
-
 # The user being created
 resource "aws_iam_user" "user" {
   name = var.user_name
@@ -31,7 +29,7 @@ data "aws_iam_policy_document" "ssm_parameter_doc" {
       "ssm:GetParameters",
     ]
 
-    resources = formatlist("arn:aws:ssm:%s:%s:parameter%s", data.aws_region.current.name, data.aws_caller_identity.current.account_id, var.ssm_parameters[count.index])
+    resources = formatlist("arn:aws:ssm:*:%s:parameter%s", data.aws_caller_identity.current.account_id, var.ssm_parameters[count.index])
   }
 }
 
