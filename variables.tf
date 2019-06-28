@@ -19,6 +19,12 @@ variable "user_name" {
 # These parameters have reasonable defaults.
 # ------------------------------------------------------------------------------
 
+variable "add_packer_permissions" {
+  type        = bool
+  description = "Whether or not to give the IAM user the permissions needed by packer to create an AMI"
+  default     = false
+}
+
 variable "tags" {
   type        = map(string)
   description = "Tags to apply to all AWS resources created"
