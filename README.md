@@ -1,6 +1,6 @@
-# molecule-packer-travisci-iam-user-tf-module ⚛️📦🏗 #
+# molecule-packer-ci-iam-user-tf-module ⚛️📦🏗 #
 
-[![Build Status](https://travis-ci.com/cisagov/molecule-packer-travisci-iam-user-tf-module.svg?branch=develop)](https://travis-ci.com/cisagov/molecule-packer-travisci-iam-user-tf-module)
+[![Build Status](https://travis-ci.com/cisagov/molecule-packer-ci-iam-user-tf-module.svg?branch=develop)](https://travis-ci.com/cisagov/molecule-packer-ci-iam-user-tf-module)
 
 A Terraform module that creates an AWS IAM user that can build AMIs via
 packer and/or access SSM parameters.
@@ -12,7 +12,7 @@ details on Terraform modules and the standard module structure.
 
 ```hcl
 module "iam_user" {
-  source = "github.com/cisagov/molecule-packer-travisci-iam-user-tf-module"
+  source = "github.com/cisagov/molecule-packer-ci-iam-user-tf-module"
 
   ssm_parameters = ["/github/oauth_token"]
   user_name      = "test-ansible-role-cyhy-core"
