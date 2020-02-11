@@ -5,6 +5,14 @@
 A Terraform module that creates an AWS IAM user that can build AMIs via
 packer and/or access SSM parameters.
 
+Note that two AWS providers are required by this module:
+
+* "aws" (default provider) - This provider must allow access to create IAM
+  resources in the account where the SSM Parameter Store is located.  This
+  is also the same account where the AMIs will be created.
+* "aws.users" - This provider must allow access to create IAM resources in
+  the account where the new user will be created.
+
 See [here](https://www.terraform.io/docs/modules/index.html) for more
 details on Terraform modules and the standard module structure.
 
