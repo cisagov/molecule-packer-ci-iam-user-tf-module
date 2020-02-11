@@ -22,10 +22,16 @@ details on Terraform modules and the standard module structure.
 module "iam_user" {
   source = "github.com/cisagov/molecule-packer-ci-iam-user-tf-module"
 
-  ssm_parameters = ["/github/oauth_token"]
-  user_name      = "test-ansible-role-cyhy-core"
+  providers = {
+      aws       = aws
+      aws.users = aws.users
+  }
+
+  images_account_id = "111111111111"
+  ssm_parameters    = ["/github/oauth_token"]
+  user_name         = "test-ansible-role-cyhy-core"
   tags = {
-    Team        = "NCATS OIS - Development"
+    Team        = "VM Fusion - Development"
     Application = "ansible-role-cyhy-core testing"
   }
 }
