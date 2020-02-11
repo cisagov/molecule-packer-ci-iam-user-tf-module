@@ -1,6 +1,6 @@
 # molecule-packer-ci-iam-user-tf-module ⚛️📦🏗 #
 
-[![Build Status](https://travis-ci.com/cisagov/molecule-packer-ci-iam-user-tf-module.svg?branch=develop)](https://travis-ci.com/cisagov/molecule-packer-ci-iam-user-tf-module)
+[![GitHub Build Status](https://github.com/cisagov/molecule-packer-ci-iam-user-tf-module/workflows/build/badge.svg)](https://github.com/cisagov/molecule-packer-ci-iam-user-tf-module/actions)
 
 A Terraform module that creates an AWS IAM user that can build AMIs via
 packer and/or access SSM parameters.
