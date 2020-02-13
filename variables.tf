@@ -36,12 +36,12 @@ variable "images_account_id" {
 }
 
 variable "parameterstorereadonly_role_description" {
-  description = "The description to associate with the IAM role (as well as the corresponding policy) that allows read-only access to the specified SSM ParameterStore parameters.  Note that a \"%s\" in this value will get replaced with the user_name variable."
-  default     = "Allows read-only access to SSM ParameterStore required for %s."
+  description = "The description to associate with the IAM role (as well as the corresponding policy) that allows read-only access to the specified SSM Parameter Store parameters.  Note that a \"%s\" in this value will get replaced with the user_name variable."
+  default     = "Allows read-only access to SSM Parameter Store parameters required for %s."
 }
 
 variable "parameterstorereadonly_role_name" {
-  description = "The name to assign the IAM role (as well as the corresponding policy) that allows read-only access to SSM ParameterStore.  Note that a \"%s\" in this value will get replaced with the user_name variable."
+  description = "The name to assign the IAM role (as well as the corresponding policy) that allows read-only access to the specified SSM Parameter Store parameters.  Note that a \"%s\" in this value will get replaced with the user_name variable."
   default     = "ParameterStoreReadOnly-%s"
 }
 
