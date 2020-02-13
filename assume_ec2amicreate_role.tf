@@ -19,8 +19,6 @@ data "aws_iam_policy_document" "assume_ec2amicreate_role_doc" {
 resource "aws_iam_user_policy" "assume_ec2miwrite" {
   count = var.add_packer_permissions ? 1 : 0
 
-  provider = aws.users
-
   name   = "Images-Assume${var.ec2amicreate_role_name}"
   user   = aws_iam_user.user.name
   policy = data.aws_iam_policy_document.assume_ec2amicreate_role_doc[count.index].json

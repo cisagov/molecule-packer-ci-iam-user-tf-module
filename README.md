@@ -7,12 +7,12 @@ packer and/or access SSM parameters.
 
 Note that two AWS providers are required by this module:
 
+* "aws" - This default provider must allow access to create all necessary IAM
+resources in the account where the new user will be created.
 * "aws.images-ProvisionParameterStoreReadRoles" - This provider must allow
   creation of a role in the target (Images) account that can read SSM
   Parameter Store parameters.  Note that this must be the same account where
   the AMIs will be created.
-* "aws.users" - This provider must allow access to create all necessary IAM
-  resources in the account where the new user will be created.
 
 See [here](https://www.terraform.io/docs/modules/index.html) for more
 details on Terraform modules and the standard module structure.
@@ -24,8 +24,8 @@ module "iam_user" {
   source = "github.com/cisagov/molecule-packer-ci-iam-user-tf-module"
 
   providers = {
+    aws                                         = aws
     aws.images-ProvisionParameterStoreReadRoles = aws.images-ProvisionParameterStoreReadRoles
-    aws.users                                   = aws.users
   }
 
   images_account_id = "111111111111"

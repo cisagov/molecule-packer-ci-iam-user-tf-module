@@ -15,8 +15,6 @@ data "aws_iam_policy_document" "assume_parameterstorereadonly_role_doc" {
 # The IAM policy allowing this user to assume their custom
 # ParameterStoreReadOnly role in the Images account
 resource "aws_iam_user_policy" "assume_parameterstorereadonly" {
-  provider = aws.users
-
   name   = "Images-Assume${local.parameterstorereadonly_role_name}"
   user   = aws_iam_user.user.name
   policy = data.aws_iam_policy_document.assume_parameterstorereadonly_role_doc.json

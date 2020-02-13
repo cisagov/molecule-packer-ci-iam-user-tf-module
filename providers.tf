@@ -4,8 +4,7 @@ provider "aws" {
   alias = "images-ProvisionParameterStoreReadRoles"
 }
 
-# This is the provider that is used to create resources inside
+# This is the default provider that is used to create resources inside
 # the Users account
 provider "aws" {
-  alias = "users"
 }
