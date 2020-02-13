@@ -14,6 +14,8 @@ data "aws_iam_policy_document" "parameterstorereadonly_doc" {
 }
 
 resource "aws_iam_policy" "parameterstorereadonly_policy" {
+  provider = aws.images-ProvisionParameterStoreReadRoles
+
   description = local.parameterstorereadonly_role_description
   name        = local.parameterstorereadonly_role_name
   policy      = data.aws_iam_policy_document.parameterstorereadonly_doc.json
