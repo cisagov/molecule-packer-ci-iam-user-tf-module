@@ -1,10 +1,16 @@
-# Default AWS provider for the Images account
+# Default AWS provider (required to set region, but not used)
 provider "aws" {
-  region  = "us-east-1"
-  profile = "cool-images-provisionaccount"
+  region = "us-east-1"
 }
 
-# AWS provider for the Users account
+# ProvisionParameterStoreReadRoles AWS provider for the Images account
+provider "aws" {
+  region  = "us-east-1"
+  profile = "cool-images-provisionparameterstorereadroles"
+  alias   = "images-ProvisionParameterStoreReadRoles"
+}
+
+# ProvisionAccount AWS provider for the Users account
 provider "aws" {
   region  = "us-east-1"
   profile = "cool-users-provisionaccount"
@@ -15,8 +21,8 @@ module "iam_user" {
   source = "github.com/cisagov/molecule-packer-ci-iam-user-tf-module"
 
   providers = {
-    aws       = aws
-    aws.users = aws.users
+    aws.images-ProvisionParameterStoreReadRoles = aws.images-ProvisionParameterStoreReadRoles
+    aws.users                                   = aws.users
   }
 
   images_account_id = "111111111111"
