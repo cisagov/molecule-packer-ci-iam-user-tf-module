@@ -1,9 +1,18 @@
 # molecule-packer-ci-iam-user-tf-module ⚛️📦🏗 #
 
-[![Build Status](https://travis-ci.com/cisagov/molecule-packer-ci-iam-user-tf-module.svg?branch=develop)](https://travis-ci.com/cisagov/molecule-packer-ci-iam-user-tf-module)
+[![GitHub Build Status](https://github.com/cisagov/molecule-packer-ci-iam-user-tf-module/workflows/build/badge.svg)](https://github.com/cisagov/molecule-packer-ci-iam-user-tf-module/actions)
 
 A Terraform module that creates an AWS IAM user that can build AMIs via
 packer and/or access SSM parameters.
+
+Note that two AWS providers are required by this module:
+
+* "aws" - This default provider must allow access to create all necessary IAM
+resources in the account where the new user will be created.
+* "aws.images-ProvisionParameterStoreReadRoles" - This provider must allow
+  creation of a role in the target (Images) account that can read SSM
+  Parameter Store parameters.  Note that this must be the same account where
+  the AMIs will be created.
 
 See [here](https://www.terraform.io/docs/modules/index.html) for more
 details on Terraform modules and the standard module structure.
@@ -14,10 +23,16 @@ details on Terraform modules and the standard module structure.
 module "iam_user" {
   source = "github.com/cisagov/molecule-packer-ci-iam-user-tf-module"
 
-  ssm_parameters = ["/github/oauth_token"]
-  user_name      = "test-ansible-role-cyhy-core"
+  providers = {
+    aws                                         = aws
+    aws.images-ProvisionParameterStoreReadRoles = aws.images-ProvisionParameterStoreReadRoles
+  }
+
+  images_account_id = "111111111111"
+  ssm_parameters    = ["/github/oauth_token"]
+  user_name         = "test-ansible-role-cyhy-core"
   tags = {
-    Team        = "NCATS OIS - Development"
+    Team        = "VM Fusion - Development"
     Application = "ansible-role-cyhy-core testing"
   }
 }
@@ -31,10 +46,14 @@ module "iam_user" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-------:|:--------:|
-| ssm_parameters | The AWS SSM parameters that the IAM user needs to be able to read | list(string) | | yes |
-| user_name | The name to associate with the AWS IAM user (e.g. test-ansible-role-cyhy-core) | string | | yes |
 | add_packer_permissions | Whether or not to give the IAM user the permissions needed by packer to create an AMI | bool | `false` | no |
+| ec2amicreate_role_name | The name of the IAM role in the Images account that allows all of the EC2 actions needed to create an AMI. | string | `EC2AMICreate` | no |
+| images_account_id | The AWS account ID containing the SSM parameter store that the IAM user needs to read from and also where the user will be allowed to create images (if add_packer_permissions is true); if not provided, the current calling account ID is used | string | ID of calling account | no |
+| parameterstorereadonly_role_description | The description to associate with the IAM role (as well as the corresponding policy) that allows read-only access to the specified SSM Parameter Store parameters.  Note that a "%s" in this value will get replaced with the user_name variable. | string | `Allows read-only access to SSM Parameter Store parameters required for %s.` | no |
+| parameterstorereadonly_role_name | The name to assign the IAM role (as well as the corresponding policy) that allows read-only access to the specified SSM Parameter Store parameters.  Note that a "%s" in this value will get replaced with the user_name variable. | string | `ParameterStoreReadOnly-%s` | no |
+| ssm_parameters | The AWS SSM parameters that the IAM user needs to be able to read | list(string) | | yes |
 | tags | Tags to apply to all AWS resources created | map(string) | `{}` | no |
+| user_name | The name to associate with the AWS IAM user (e.g. test-ansible-role-cyhy-core) | string | | yes |
 
 ## Outputs ##
 
