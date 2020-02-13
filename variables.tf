@@ -25,14 +25,9 @@ variable "add_packer_permissions" {
   default     = false
 }
 
-variable "amiwrite_role_description" {
-  description = "The description to associate with the IAM role (as well as the corresponding policy) that allows all of the EC2 actions needed to create an AMI.  Note that a \"%s\" in this value will get replaced with the user_name variable."
-  default     = "Allows access to all of the EC2 actions needed to create an AMI for %s."
-}
-
-variable "amiwrite_role_name" {
-  description = "The name to assign the IAM role (as well as the corresponding policy) that allows all of the EC2 actions needed to create an AMI.  Note that a \"%s\" in this value will get replaced with the user_name variable."
-  default     = "EC2AMIWrite-%s"
+variable "ec2amiwrite_role_name" {
+  description = "The name of the IAM role in the Images account that allows all of the EC2 actions needed to create an AMI."
+  default     = "EC2AMIWrite"
 }
 
 variable "images_account_id" {
