@@ -47,7 +47,9 @@ module "iam_user" {
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-------:|:--------:|
 | add_packer_permissions | Whether or not to give the IAM user the permissions needed by packer to create an AMI | bool | `false` | no |
-| ec2amicreate_role_name | The name of the IAM role in the Images account that allows all of the EC2 actions needed to create an AMI. | string | `EC2AMICreate` | no |
+| ec2amicreate_policy_name | The name of the IAM policy in the Images account that allows all of the actions needed to create an AMI. | string | `EC2AMICreate` | no |
+| ec2amicreate_role_description | The description to associate with the IAM role that allows this IAM user to create AMIs.  Note that a "%s" in this value will get replaced with the user_name variable. | string | `Allows the %s IAM user to create AMIs` | no |
+| ec2amicreate_role_name | The name to assign the IAM role that allows allows this IAM user to create AMIs.  Note that a "%s" in this value will get replaced with the user_name variable. | string | `EC2AMICreate-%s` | no |
 | images_account_id | The AWS account ID containing the SSM parameter store that the IAM user needs to read from and also where the user will be allowed to create images (if add_packer_permissions is true); if not provided, the current calling account ID is used | string | ID of calling account | no |
 | parameterstorereadonly_role_description | The description to associate with the IAM role (as well as the corresponding policy) that allows read-only access to the specified SSM Parameter Store parameters.  Note that a "%s" in this value will get replaced with the user_name variable. | string | `Allows read-only access to SSM Parameter Store parameters required for %s.` | no |
 | parameterstorereadonly_role_name | The name to assign the IAM role (as well as the corresponding policy) that allows read-only access to the specified SSM Parameter Store parameters.  Note that a "%s" in this value will get replaced with the user_name variable. | string | `ParameterStoreReadOnly-%s` | no |
