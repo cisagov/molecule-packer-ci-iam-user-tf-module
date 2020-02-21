@@ -4,6 +4,13 @@ provider "aws" {
   profile = "cool-users-provisionaccount"
 }
 
+# ProvisionEC2AMICreateRoles AWS provider for the Images account
+provider "aws" {
+  region  = "us-east-1"
+  profile = "cool-images-provisionec2amicreateroles"
+  alias   = "images-ProvisionEC2AMICreateRoles"
+}
+
 # ProvisionParameterStoreReadRoles AWS provider for the Images account
 provider "aws" {
   region  = "us-east-1"
@@ -11,10 +18,10 @@ provider "aws" {
   alias   = "images-ProvisionParameterStoreReadRoles"
 }
 
-# Use aws_caller_identity with the Images account provider so we can pass the
-# Images account ID into the module below
+# Use aws_caller_identity with one of the Images account providers
+# so we can pass the Images account ID into the module below
 data "aws_caller_identity" "images" {
-  provider = aws.images-ProvisionParameterStoreReadRoles
+  provider = aws.images-ProvisionEC2AMICreateRoles
 }
 
 module "iam_user" {
@@ -22,6 +29,7 @@ module "iam_user" {
 
   providers = {
     aws                                         = aws
+    aws.images-ProvisionEC2AMICreateRoles       = aws.images-ProvisionEC2AMICreateRoles
     aws.images-ProvisionParameterStoreReadRoles = aws.images-ProvisionParameterStoreReadRoles
   }
 

@@ -2,6 +2,16 @@
 data "aws_caller_identity" "current" {}
 
 locals {
+  # If var.ec2amicreate_role_description contains "%s", use format()
+  # to replace the "%s" with var.user_name, otherwise just use
+  # var.ec2amicreate_role_description as is
+  ec2amicreate_role_description = length(regexall(".*%s.*", var.ec2amicreate_role_description)) > 0 ? format(var.ec2amicreate_role_description, var.user_name) : var.parameterstorereadonly_role_description
+
+  # If var.ec2amicreate_role_name contains "%s", use format()
+  # to replace the "%s" with var.user_name, otherwise just use
+  # var.ec2amicreate_role_name as is
+  ec2amicreate_role_name = length(regexall(".*%s.*", var.ec2amicreate_role_name)) > 0 ? format(var.ec2amicreate_role_name, var.user_name) : var.ec2amicreate_role_name
+
   # If var.images_account_id is not set, default to the calling account
   images_account_id = var.images_account_id != "" ? var.images_account_id : data.aws_caller_identity.current.account_id
 
