@@ -11,7 +11,12 @@ resource "aws_iam_role" "ec2amicreate_role" {
   assume_role_policy = data.aws_iam_policy_document.assume_role_doc.json
   description        = local.ec2amicreate_role_description
   name               = local.ec2amicreate_role_name
-  tags               = var.tags
+  tags = merge(var.tags,
+    {
+      "GitHub_Secret_Name"             = "BUILD_ROLE_TO_ASSUME",
+      "GitHub_Secret_Terraform_Lookup" = "arn"
+    }
+  )
 }
 
 resource "aws_iam_role_policy_attachment" "ec2amicreate_policy_attachment" {
