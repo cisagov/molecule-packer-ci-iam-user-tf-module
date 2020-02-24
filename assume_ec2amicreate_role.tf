@@ -6,7 +6,10 @@ data "aws_iam_policy_document" "assume_ec2amicreate_role_doc" {
   statement {
     effect = "Allow"
 
-    actions = ["sts:AssumeRole"]
+    actions = [
+      "sts:AssumeRole",
+      "sts:TagSession",
+    ]
 
     resources = [
       aws_iam_role.ec2amicreate_role[count.index].arn
